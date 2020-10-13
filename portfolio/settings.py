@@ -85,10 +85,19 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': env.db()
+# }
 DATABASES = {
-    'default': env.db()
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'portfolio',
+        'USER': 'masa',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '',
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -145,8 +154,8 @@ if not DEBUG:
     import django_heroku
     django_heroku.settings(locals())
     # # using heroku's config var
-    # DATABASE_URL = os.environ['DATABASE_URL']
-    # conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)
